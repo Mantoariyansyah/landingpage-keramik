@@ -28,16 +28,18 @@ export function Hero({
   breadcrumb,
 }: HeroProps) {
   return (
-    <section id="beranda" className="relative pt-[74px]">
-      <div className="site-container grid min-h-[730px] items-stretch lg:grid-cols-[.93fr_1.07fr]">
-        <div className="flex flex-col justify-center py-20 pr-0 lg:py-24 lg:pr-16">
+    <section id="beranda" className="relative pt-14 lg:pt-[74px]">
+      <div className="site-container grid items-stretch lg:min-h-[730px] lg:grid-cols-[.93fr_1.07fr]">
+        <div className="flex flex-col justify-center py-10 pr-0 lg:py-24 lg:pr-16">
           {breadcrumb}
           <Eyebrow>{eyebrow}</Eyebrow>
-          <h1 className="mt-7 max-w-[700px] text-[clamp(2.8rem,6vw,5.45rem)] font-medium leading-[.98] tracking-[-0.055em]">
+          <h1 className="mt-5 max-w-[700px] text-[clamp(2.8rem,6vw,5.45rem)] font-medium leading-[.98] tracking-[-0.055em] lg:mt-7">
             {title}
           </h1>
-          <p className="mt-7 max-w-[570px] text-[16px] leading-7 text-[#69675f]">{text}</p>
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+          <p className="mt-5 max-w-[570px] text-[16px] leading-7 text-[#69675f] lg:mt-7">
+            {text}
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row lg:mt-10">
             <a href={primaryHref} target="_blank" rel="noreferrer" className="button-dark">
               Konsultasi Proyek <ArrowIcon />
             </a>
@@ -45,7 +47,7 @@ export function Hero({
               Lihat Hasil Pekerjaan
             </Link>
           </div>
-          <div className="mt-14 flex items-center gap-7 border-t border-black/10 pt-7 text-xs font-semibold text-[#55534d]">
+          <div className="mt-10 flex flex-wrap items-center gap-5 border-t border-black/10 pt-6 text-xs font-semibold text-[#55534d] lg:mt-14 lg:gap-7 lg:pt-7">
             {checks.map((c) => (
               <span key={c} className="flex items-center gap-2">
                 <CheckIcon /> {c}
@@ -53,7 +55,7 @@ export function Hero({
             ))}
           </div>
         </div>
-        <div className="relative min-h-[510px] lg:min-h-full">
+        <div className="relative min-h-[420px] lg:min-h-full">
           <Image
             src={photos.hero}
             alt="Kamar mandi modern dengan instalasi keramik marmer"

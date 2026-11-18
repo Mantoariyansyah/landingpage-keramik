@@ -2,41 +2,88 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { navLinks } from "@/data/content";
 import { waLink } from "@/lib/whatsapp";
 import { WhatsAppIcon } from "./ui/Icons";
 
-/* ---------- Ikon tab (urutan mengikuti navLinks) ---------- */
-const tabIcons = [
-  // Beranda
-  <svg key="home" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+/* ---------- Ikon tab ---------- */
+const iconBeranda: ReactNode = (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
     strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="h-full w-full">
     <path d="M3 11.2 12 4l9 7.2" />
     <path d="M5.5 9.8V20h13V9.8" />
-  </svg>,
-  // Koleksi / Produk
-  <svg key="grid" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+  </svg>
+);
+
+const iconTentang: ReactNode = (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
     strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="h-full w-full">
-    <rect x="4" y="4" width="6.5" height="6.5" rx="1" />
-    <rect x="13.5" y="4" width="6.5" height="6.5" rx="1" />
-    <rect x="4" y="13.5" width="6.5" height="6.5" rx="1" />
-    <rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1" />
-  </svg>,
-  // Tentang
-  <svg key="info" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <path d="M3 21h18" />
+    <path d="M5 21V8l7-4 7 4v13" />
+    <path d="M9 21v-5h6v5" />
+  </svg>
+);
+
+const iconPortfolio: ReactNode = (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
     strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="h-full w-full">
-    <circle cx="12" cy="12" r="9" />
-    <path d="M12 11v5" />
-    <circle cx="12" cy="8" r="0.6" fill="currentColor" />
-  </svg>,
-  // Kontak
-  <svg key="contact" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <rect x="3" y="4" width="18" height="16" rx="2" />
+    <circle cx="8.5" cy="9.5" r="1.5" />
+    <path d="m21 15-5-5L5 20" />
+  </svg>
+);
+
+const iconKontak: ReactNode = (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
     strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="h-full w-full">
     <rect x="3" y="5" width="18" height="14" rx="2" />
     <path d="m4 7 8 6 8-6" />
-  </svg>,
-];
+  </svg>
+);
+
+/* Layanan — ikon palu & kuas (jasa pasang / tukang) */
+const iconLayanan: ReactNode = (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="h-full w-full">
+    <path d="M14.7 6.3a3.2 3.2 0 0 0 4.2 4.2l-8.4 8.4a2.1 2.1 0 0 1-3-3l8.4-8.4-1.2-1.2Z" />
+    <path d="M3 21l3.5-3.5" />
+  </svg>
+);
+
+/* Area Layanan — ikon pin lokasi */
+const iconArea: ReactNode = (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="h-full w-full">
+    <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11Z" />
+    <circle cx="12" cy="10" r="2.5" />
+  </svg>
+);
+
+/* Fallback netral (bukan rumah) supaya tidak menipu kalau ada href tak dikenal */
+const iconFallback: ReactNode = (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="h-full w-full">
+    <circle cx="12" cy="12" r="3.5" />
+  </svg>
+);
+
+/* ---------- Pilih ikon berdasarkan keyword di href + label ----------
+   Urutan penting: Area Layanan dicek DULU sebelum Layanan,
+   karena label "Area Layanan" mengandung kata "layanan". */
+function getTabIcon(href: string, label: string): ReactNode {
+  const key = `${href} ${label}`.toLowerCase();
+
+  if (/(area|lokasi|location|wilayah|jangkauan|coverage)/.test(key)) return iconArea;
+  if (/(layanan|service|jasa)/.test(key)) return iconLayanan;
+  if (/(tentang|about|profil|profile)/.test(key)) return iconTentang;
+  if (/(portfolio|portofolio|karya|proyek|project|galeri|gallery|work)/.test(key))
+    return iconPortfolio;
+  if (/(kontak|contact|hubungi)/.test(key)) return iconKontak;
+  if (href === "/" || /(beranda|home|utama)/.test(key)) return iconBeranda;
+
+  return iconFallback;
+}
 
 export function Header() {
   const pathname = usePathname();
@@ -78,7 +125,7 @@ export function Header() {
         className="fixed inset-x-0 bottom-0 z-50 border-t border-black/8 bg-[#f7f5f0]/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md lg:hidden"
       >
         <div className="mx-auto flex max-w-lg items-stretch">
-          {navLinks.map(([label, href], i) => {
+          {navLinks.map(([label, href]) => {
             const active = isActive(href);
             return (
               <Link
@@ -94,7 +141,7 @@ export function Header() {
                     active ? "opacity-100" : "opacity-0"
                   }`}
                 />
-                <span className="h-5 w-5">{tabIcons[i] ?? tabIcons[0]}</span>
+                <span className="h-5 w-5">{getTabIcon(href, label)}</span>
                 <span className="text-[10px] font-semibold tracking-wide">{label}</span>
               </Link>
             );
@@ -132,7 +179,7 @@ export function Header() {
 
           {/* Nav */}
           <nav className="flex items-center" aria-label="Navigasi utama">
-            {navLinks.map(([label, href], i) => {
+            {navLinks.map(([label, href]) => {
               const active = isActive(href);
               return (
                 <Link
@@ -147,9 +194,7 @@ export function Header() {
                       : "text-[#252521] hover:bg-black/5"
                   }`}
                 >
-                  <span className="h-4 w-4 shrink-0">
-                    {tabIcons[i] ?? tabIcons[0]}
-                  </span>
+                  <span className="h-4 w-4 shrink-0">{getTabIcon(href, label)}</span>
                   <span
                     className={`overflow-hidden whitespace-nowrap text-xs font-semibold transition-all duration-300 ${
                       scrolled

@@ -7,6 +7,8 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhatsAppFloat } from "@/components/WhatsAppFloat";
 import { JsonLd } from "@/components/ui/JsonLd";
+import { ScrollToTop } from "@/components/ScrollToTop";
+import { ScrollTopButton } from "@/components/ScrollTopButton";
 
 const manrope = localFont({
   src: [
@@ -62,6 +64,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="id" className={`${manrope.variable} ${dmSerif.variable}`}>
       <body>
+        <ScrollToTop />
         <JsonLd data={[localBusinessSchema(), websiteSchema()]} />
         <a
           href="#konten"
@@ -74,6 +77,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main id="konten">{children}</main>
           <Footer />
           <WhatsAppFloat />
+          <ScrollTopButton />
         </div>
       </body>
     </html>
