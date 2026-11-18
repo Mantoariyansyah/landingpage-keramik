@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { cityCards } from "@/data/content";
-import { locationPath, priorityOne } from "@/data/locations";
+import { locationPath } from "@/data/locations";
 import { waLink } from "@/lib/whatsapp";
 import { ArrowIcon } from "./ui/Icons";
 import { Eyebrow } from "./ui/Eyebrow";
@@ -25,33 +25,6 @@ export function AreaSection() {
           >
             Cek jangkauan lokasi <ArrowIcon />
           </a>
-
-          {/* Tambahan Local SEO: tautan internal ke halaman wilayah prioritas */}
-          <nav aria-label="Jasa pasang keramik per wilayah" className="mt-12">
-            <p className="text-[10px] font-bold uppercase tracking-[.18em] text-[#8b887f]">
-              Jasa pasang keramik per wilayah
-            </p>
-            <ul className="mt-4 flex flex-wrap gap-2">
-              {priorityOne.map((l) => (
-                <li key={l.slug}>
-                  <Link
-                    href={locationPath(l.slug)}
-                    className="inline-block border border-black/15 px-3.5 py-2 text-xs font-semibold hover:border-[#252521] hover:bg-[#252521] hover:text-white"
-                  >
-                    {l.name}
-                  </Link>
-                </li>
-              ))}
-              <li>
-                <Link
-                  href="/jasa-pasang-keramik"
-                  className="inline-flex items-center gap-2 px-1 py-2 text-xs font-bold underline underline-offset-4"
-                >
-                  Semua wilayah <ArrowIcon />
-                </Link>
-              </li>
-            </ul>
-          </nav>
         </div>
         <div className="grid border-l border-t border-black/15 sm:grid-cols-2">
           {cityCards.map(({ city, coverage, slug }, i) => (

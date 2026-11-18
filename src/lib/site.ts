@@ -6,7 +6,7 @@
  * Nilai default di bawah berasal dari desain Figma (placeholder).
  */
 
-const rawWa = (process.env.NEXT_PUBLIC_WA_NUMBER ?? "6281234567890").replace(/\D/g, "");
+const rawWa = (process.env.NEXT_PUBLIC_WA_NUMBER ?? "6289688087637").replace(/\D/g, "");
 
 /** "6281234567890" -> "+62 812 3456 7890" */
 function formatPhone(intl: string): string {
